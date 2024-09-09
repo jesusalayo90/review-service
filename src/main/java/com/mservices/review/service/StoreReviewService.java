@@ -1,6 +1,7 @@
 package com.mservices.review.service;
 
 import com.mservices.review.entity.StoreReview;
+import com.mservices.review.exception.ServiceException;
 import com.mservices.review.repository.StoreReviewRepo;
 import com.mservices.review.repository.util.CriteriaSearch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class StoreReviewService implements ReviewService<StoreReview> {
     }
 
     @Override
-    public StoreReview saveReview(StoreReview review) {
+    public StoreReview saveReview(StoreReview review) throws ServiceException {
         if (review != null) {
             review.setDeleted(Boolean.FALSE);
         }

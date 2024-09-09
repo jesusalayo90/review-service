@@ -1,6 +1,7 @@
 package com.mservices.review.controller;
 
 import com.mservices.review.entity.StoreReview;
+import com.mservices.review.exception.ServiceException;
 import com.mservices.review.service.StoreReviewService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import static com.mservices.review.controller.util.BindingResultUtil.formatError
 
 @Controller
 @RequestMapping(value = "/stores")
-public class StoreReviewController {
+public class StoreReviewController extends BaseController {
 
     @Autowired
     private StoreReviewService storeReviewService;
@@ -35,7 +36,8 @@ public class StoreReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<StoreReview> createStoreReview(@Valid @RequestBody StoreReview storeReview, BindingResult validation) {
+    public ResponseEntity<StoreReview> createStoreReview(@Valid @RequestBody StoreReview storeReview, BindingResult validation)
+            throws ServiceException {
         if (validation.hasErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, formatErrors(validation));
         }

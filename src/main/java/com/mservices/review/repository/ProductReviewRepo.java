@@ -1,6 +1,6 @@
 package com.mservices.review.repository;
 
-import com.mservices.review.entity.StoreReview;
+import com.mservices.review.entity.ProductReview;
 import com.mservices.review.exception.ServiceException;
 import com.mservices.review.repository.util.CriteriaSearch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import static com.mservices.review.util.ErrorConstants.RVW0001;
 
 @Repository
-public class StoreReviewRepo extends DynamoRepo implements DynamoRecord<StoreReview> {
+public class ProductReviewRepo extends DynamoRepo implements DynamoRecord<ProductReview> {
 
     @Autowired
     private DynamoDbEnhancedClient dynamoDbEnhancedClient;
@@ -31,8 +31,8 @@ public class StoreReviewRepo extends DynamoRepo implements DynamoRecord<StoreRev
     private MessageSource messageSource;
 
     @Override
-    public List<StoreReview> findByCriteria(CriteriaSearch criteriaSearch) {
-        List<StoreReview> records = null;
+    public List<ProductReview> findByCriteria(CriteriaSearch criteriaSearch) {
+        List<ProductReview> records = null;
 
         String expression = buildExpressionQuery(criteriaSearch);
         Map<String, AttributeValue> expValues = buildExpressionValues(criteriaSearch);
@@ -44,7 +44,7 @@ public class StoreReviewRepo extends DynamoRepo implements DynamoRecord<StoreRev
                         .expressionValues(expValues)
                         .build())
                 .build();
-        PageIterable<StoreReview> pages = getTable(dynamoDbEnhancedClient, StoreReview.class).scan(req);
+        PageIterable<ProductReview> pages = getTable(dynamoDbEnhancedClient, ProductReview.class).scan(req);
 
         if (pages.stream().count() > 0) {
             records = pages.stream().flatMap(p -> p.items().stream()).collect(Collectors.toList());
@@ -54,13 +54,13 @@ public class StoreReviewRepo extends DynamoRepo implements DynamoRecord<StoreRev
     }
 
     @Override
-    public List<StoreReview> findAll() {
-        List<StoreReview> records = null;
+    public List<ProductReview> findAll() {
+        List<ProductReview> records = null;
 
         ScanEnhancedRequest req = ScanEnhancedRequest.builder()
                 .consistentRead(Boolean.TRUE)
                 .build();
-        PageIterable<StoreReview> pages = getTable(dynamoDbEnhancedClient, StoreReview.class).scan(req);
+        PageIterable<ProductReview> pages = getTable(dynamoDbEnhancedClient, ProductReview.class).scan(req);
 
         if (pages.stream().count() > 0) {
             records = pages.stream().flatMap(p -> p.items().stream()).collect(Collectors.toList());
@@ -70,36 +70,36 @@ public class StoreReviewRepo extends DynamoRepo implements DynamoRecord<StoreRev
     }
 
     @Override
-    public StoreReview findRecord(String... keys) {
-        StoreReview record = null;
+    public ProductReview findRecord(String... keys) {
+        ProductReview record = null;
         if (keys != null && keys.length > 0) {
             String key = keys[0];
-            record = getTable(dynamoDbEnhancedClient, StoreReview.class).getItem(Key.builder().partitionValue(key).build());
+            record = getTable(dynamoDbEnhancedClient, ProductReview.class).getItem(Key.builder().partitionValue(key).build());
         }
         return record;
     }
 
     @Override
-    public StoreReview saveRecord(StoreReview record) throws ServiceException {
+    public ProductReview saveRecord(ProductReview record) throws ServiceException {
         try {
-            PutItemEnhancedRequest<StoreReview> request = PutItemEnhancedRequest.builder(StoreReview.class)
+            PutItemEnhancedRequest<ProductReview> request = PutItemEnhancedRequest.builder(ProductReview.class)
                     .conditionExpression(Expression.builder()
-                            .expression("attribute_not_exists(storeCode)")
+                            .expression("attribute_not_exists(productCode)")
                             .build())
                     .item(record)
                     .build();
 
-            getTable(dynamoDbEnhancedClient, StoreReview.class).putItem(request);
+            getTable(dynamoDbEnhancedClient, ProductReview.class).putItem(request);
         } catch (DynamoDbException dbException) {
-            String msg = messageSource.getMessage(RVW0001, new String[] {"StoreReview"}, LocaleContextHolder.getLocale());
+            String msg = messageSource.getMessage(RVW0001, new String[] {"ProductReview"}, LocaleContextHolder.getLocale());
             throw new ServiceException(RVW0001, msg);
         }
         return record;
     }
 
     @Override
-    public StoreReview updateRecord(StoreReview record) {
-        getTable(dynamoDbEnhancedClient, StoreReview.class).updateItem(record);
+    public ProductReview updateRecord(ProductReview record) {
+        getTable(dynamoDbEnhancedClient, ProductReview.class).updateItem(record);
         return record;
     }
 }

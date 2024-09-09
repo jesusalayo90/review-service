@@ -7,16 +7,16 @@ import lombok.Getter;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
-import static com.mservices.review.util.ValidationConstants.CANNOT_BE_EMTPY;
+import static com.mservices.review.util.ValidationConstants.VLD_NOT_EMPTY;
 
 @Data
 @DynamoDbBean
 public class StoreReview {
 
-    @NotEmpty(message = CANNOT_BE_EMTPY)
+    @NotEmpty(message = VLD_NOT_EMPTY)
     @Getter(onMethod_ = @DynamoDbPartitionKey)
     private String storeCode;
-    @NotEmpty(message = CANNOT_BE_EMTPY)
+    @NotEmpty(message = VLD_NOT_EMPTY)
     private String storeName;
     private Float score;
     private Integer sales;
