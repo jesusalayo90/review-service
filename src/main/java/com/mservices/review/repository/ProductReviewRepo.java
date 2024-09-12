@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.mservices.review.util.ErrorConstants.RVW0001;
+import static com.mservices.review.util.ErrorConstants.RVW0100;
 
 @Repository
 public class ProductReviewRepo extends DynamoRepo implements DynamoRecord<ProductReview> {
@@ -91,8 +91,8 @@ public class ProductReviewRepo extends DynamoRepo implements DynamoRecord<Produc
 
             getTable(dynamoDbEnhancedClient, ProductReview.class).putItem(request);
         } catch (DynamoDbException dbException) {
-            String msg = messageSource.getMessage(RVW0001, new String[] {"ProductReview"}, LocaleContextHolder.getLocale());
-            throw new ServiceException(RVW0001, msg);
+            String msg = messageSource.getMessage(RVW0100, new String[] {"ProductReview"}, LocaleContextHolder.getLocale());
+            throw new ServiceException(RVW0100, msg);
         }
         return record;
     }

@@ -23,19 +23,19 @@ public class ProductReviewController extends BaseController {
     @Autowired
     private ProductReviewService productReviewService;
 
-    @GetMapping
+    @GetMapping(value = "/overview")
     public ResponseEntity<List<ProductReview>> listProductReviews() {
         List<ProductReview> list = productReviewService.listReviews();
         return list != null ? ResponseEntity.ok(list) : ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = "/{productCode}")
+    @GetMapping(value = "/{productCode}/overview")
     public ResponseEntity<ProductReview> getProductReview(@PathVariable(name = "productCode") String productCode) {
         ProductReview productReview = productReviewService.getReview(productCode);
         return productReview != null ? ResponseEntity.ok(productReview) : ResponseEntity.noContent().build();
     }
 
-    @PostMapping
+    @PostMapping(value = "/overview")
     public ResponseEntity<ProductReview> createProductReview(@Valid @RequestBody ProductReview productReview, BindingResult validation)
             throws ServiceException {
         if (validation.hasErrors()) {
@@ -45,7 +45,7 @@ public class ProductReviewController extends BaseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productReview);
     }
 
-    @PutMapping(value = "/{productCode}")
+    @PutMapping(value = "/{productCode}/overview")
     public ResponseEntity<ProductReview> updateProductReview(@PathVariable(name = "productCode") String productCode, @Valid @RequestBody ProductReview productReview, BindingResult validation) {
         if (validation.hasErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, formatErrors(validation));
@@ -55,7 +55,7 @@ public class ProductReviewController extends BaseController {
         return productReview != null? ResponseEntity.ok(productReview) : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping(value = "/{productCode}")
+    @DeleteMapping(value = "/{productCode}/overview")
     public ResponseEntity<ProductReview> deleteProductReview(@PathVariable(name = "productCode") String productCode) {
         ProductReview productReview = new ProductReview();
         productReview.setProductCode(productCode);

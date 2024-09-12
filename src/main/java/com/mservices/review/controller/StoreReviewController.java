@@ -23,19 +23,19 @@ public class StoreReviewController extends BaseController {
     @Autowired
     private StoreReviewService storeReviewService;
 
-    @GetMapping
+    @GetMapping(value = "/overview")
     public ResponseEntity<List<StoreReview>> listStoreReviews() {
         List<StoreReview> list = storeReviewService.listReviews();
         return list != null ? ResponseEntity.ok(list) : ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = "/{storeCode}")
+    @GetMapping(value = "/{storeCode}/overview")
     public ResponseEntity<StoreReview> getStoreReview(@PathVariable(name = "storeCode") String storeCode) {
         StoreReview storeReview = storeReviewService.getReview(storeCode);
         return storeReview != null ? ResponseEntity.ok(storeReview) : ResponseEntity.noContent().build();
     }
 
-    @PostMapping
+    @PostMapping(value = "/overview")
     public ResponseEntity<StoreReview> createStoreReview(@Valid @RequestBody StoreReview storeReview, BindingResult validation)
             throws ServiceException {
         if (validation.hasErrors()) {
@@ -45,7 +45,7 @@ public class StoreReviewController extends BaseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(storeReview);
     }
 
-    @PutMapping(value = "/{storeCode}")
+    @PutMapping(value = "/{storeCode}/overview")
     public ResponseEntity<StoreReview> updateStoreReview(@PathVariable(name = "storeCode") String storeCode, @Valid @RequestBody StoreReview storeReview, BindingResult validation) {
         if (validation.hasErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, formatErrors(validation));
@@ -55,7 +55,7 @@ public class StoreReviewController extends BaseController {
         return storeReview != null? ResponseEntity.ok(storeReview) : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping(value = "/{storeCode}")
+    @DeleteMapping(value = "/{storeCode}/overview")
     public ResponseEntity<StoreReview> deleteStoreReview(@PathVariable(name = "storeCode") String storeCode) {
         StoreReview storeReview = new StoreReview();
         storeReview.setStoreCode(storeCode);

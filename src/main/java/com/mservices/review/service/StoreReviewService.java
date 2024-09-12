@@ -14,7 +14,7 @@ import java.util.Optional;
 import static com.mservices.review.repository.util.CriteriaSearch.CriteriaArg.Operator.EQUALS;
 
 @Service
-public class StoreReviewService implements ReviewService<StoreReview> {
+public class StoreReviewService implements ReviewSvc<StoreReview> {
 
     @Autowired
     private StoreReviewRepo storeReviewRepo;
@@ -54,7 +54,7 @@ public class StoreReviewService implements ReviewService<StoreReview> {
     public StoreReview deleteReview(StoreReview review) {
         StoreReview storeReview = getReview(review.getStoreCode());
 
-        if (storeReview != null) {
+        if (storeReview != null && !storeReview.getDeleted()) {
             storeReview.setDeleted(Boolean.TRUE);
             return storeReviewRepo.updateRecord(storeReview);
         }
