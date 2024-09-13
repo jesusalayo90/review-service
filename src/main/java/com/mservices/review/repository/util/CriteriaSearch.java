@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CriteriaSearch {
 
-    private List<CriteriaArg> criteriaArgs;
+    private final List<CriteriaArg> criteriaArgs;
 
     private CriteriaSearch(List<CriteriaArg> criteriaArgs) {
         this.criteriaArgs = criteriaArgs;

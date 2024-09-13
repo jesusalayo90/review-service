@@ -56,10 +56,13 @@ public abstract class DynamoRepo {
     }
 
     private AttributeValue createAttribute(CriteriaSearch.CriteriaArg criteriaArg) {
-        switch (criteriaArg.getValue()) {
-            case Boolean b: return AttributeValue.fromBool(b);
-            case String s: return AttributeValue.fromS(s);
-            default: throw new IllegalArgumentException("Unrecognized value type");
+        Object obj = criteriaArg.getValue();
+        if (obj instanceof Boolean) {
+            return AttributeValue.fromBool((Boolean) obj);
+        } else if (obj instanceof String) {
+            return AttributeValue.fromS((String)obj);
+        } else {
+            throw new IllegalArgumentException("Unrecognized value type");
         }
     }
 }
