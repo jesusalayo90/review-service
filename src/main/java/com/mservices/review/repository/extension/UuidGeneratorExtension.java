@@ -38,7 +38,7 @@ public final class UuidGeneratorExtension implements DynamoDbEnhancedClientExten
             GeneratorBehavior behavior = (GeneratorBehavior) entry.getValue();
 
             if (GeneratorBehavior.ONLY_IF_EMPTY.equals(behavior)) {
-                if (itemToTransform.get(field) == null) {
+                if (itemToTransform.get(field).s() == null) {
                     itemToTransform.put(field, AttributeValue.builder().s(UUID.randomUUID().toString()).build());
                 }
             } else if (GeneratorBehavior.ALWAYS.equals(behavior)) {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mservices.review.repository.conversion.DateConverter;
 import com.mservices.review.repository.extension.GeneratorBehavior;
 import com.mservices.review.repository.extension.UuidGenerator;
+import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
@@ -14,8 +15,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 import java.util.Date;
 import java.util.List;
 
-import static com.mservices.review.util.ValidationConstants.VLD_NOT_EMPTY;
-import static com.mservices.review.util.ValidationConstants.VLD_POSITIVE;
+import static com.mservices.review.util.ValidationConstants.*;
 
 @Data
 @DynamoDbBean
@@ -30,6 +30,7 @@ public class Review {
     @NotEmpty(message = VLD_NOT_EMPTY)
     private String comment;
     @Positive(message = VLD_POSITIVE)
+    @DecimalMax(value = "5.0", message = VLD_LESS_THAN)
     private Float rating;
     private List<String> images;
     @Getter(onMethod_ = @DynamoDbConvertedBy(DateConverter.class))
@@ -44,6 +45,7 @@ public class Review {
         if (clone) {
             this.setId(r.getId());
             this.setDeleted(r.getDeleted());
+            this.setCreatedAt(r.getCreatedAt());
         }
     }
 
@@ -53,6 +55,6 @@ public class Review {
         this.setComment(r.getComment());
         this.setRating(r.getRating());
         this.setImages(r.getImages());
-        this.setCreatedAt(r.getCreatedAt());
+        this.setUpdatedAt(r.getUpdatedAt());
     }
 }
